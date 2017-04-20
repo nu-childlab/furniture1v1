@@ -1,0 +1,14 @@
+/*outline and space images apart*/
+body {
+  background: #ddd;
+}
+#jspsych-single-stim-stimulus {
+  border: blue thick solid;
+}
+.furniture-card {
+  /*width: 100%; maintain card width and height */
+  /*height: 100%;*/
+  border: green thin solid;
+  float: left;
+  margin: 30px; /*add space around*/
+}
