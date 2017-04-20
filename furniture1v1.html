@@ -74,26 +74,27 @@
         {astim: "23At0n0s1", bstim: "23Bt1n1s0"}
 		];
 
- 	var aImg = [];
- 	var bImg = [];
- 	for (var i = 0; i < allImages.length; i++) {
- 		aImg.push(allImages[i].astim);
- 		bImg.push(allImages[i].bstim);
- 	}
- 
-    var aImgFilepaths = aImg.map(function(imageName) {
+    // shuffle array and repeat each image X times withinin the new (shuffled) array. 
+    var repeatImage = 1;
+    var allShuffled = jsPsych.randomization.repeat(allImages, repeatImage);
+    var aShuffled = [];
+    var bShuffled = [];
+
+    // shuffle and then separate so a and b pairs are in the same order after shuffle 
+    for (var i = 0; i < allShuffled.length; i++) {
+        aShuffled.push(allShuffled[i].astim);
+        bShuffled.push(allShuffled[i].bstim);
+    }
+
+    var aFilepaths = aShuffled.map(function(imageName) {
         return "cards_furniture/" + imageName + ".png";
     });
-    var bImgFilepaths = bImg.map(function(imageName) {
+    var bFilepaths = bShuffled.map(function(imageName) {
         return "cards_furniture/" + imageName + ".png";
     });
 
-    var repeatImage = 1;
-    // shuffle array and repeat each image X times withinin the new (shuffled) array. 
-    var aShuffled = jsPsych.randomization.repeat(aImgFilepaths, repeatImage);
-    var bShuffled = jsPsych.randomization.repeat(bImgFilepaths, repeatImage);
     // to display the number of trials to the subject in the instructions 
-    var numTrials = aImgFilepaths.length * repeatImage;
+    var numTrials = allShuffled.length * repeatImage;
 
     /* define instructions block */
     var instructions_block = {
@@ -123,16 +124,16 @@
     var sentPresent = "<p align='center' style='font-size:30px;'>" + sentence + "</p><p align='center' style='font-size:15px;'>press <strong>f</strong> for yes, <strong>j</strong> for no"
 
     /* define test block */
-    var test_block = {
-        type: "single-stim",
-        // is_html: true,
-        stimuli: aShuffled,
-        // 70 = F/f, 74 = J/j
-        choices: ['f', 'j'],
-        prompt: sentPresent,
-        timing_response: timeToRespond,
-        timing_post_trial: ISI
-    };
+    // var test_block = {
+    //     type: "single-stim",
+    //     // is_html: true,
+    //     stimuli: aShuffled,
+    //     // 70 = F/f, 74 = J/j
+    //     choices: ['f', 'j'],
+    //     prompt: sentPresent,
+    //     timing_response: timeToRespond,
+    //     timing_post_trial: ISI
+    // };
 
     /* define survey block */
     var survey_block = {
@@ -153,7 +154,21 @@
     /* create an experiment definition array */
     var experiment = [];
     experiment.push(instructions_block);
-    experiment.push(test_block);
+    // experiment.push(test_block);
+    for (var i = 0; i < aShuffled.length; i++) {
+        var test_block = {
+            type: "single-stim",
+            is_html: true,
+            stimuli: '<img src='+ aFilepaths[i] + '><img src=' + bFilepaths[i] +'>',
+            // 70 = F/f, 74 = J/j
+            choices: ['f', 'j'],
+            prompt: sentPresent,
+            timing_response: timeToRespond,
+            timing_post_trial: ISI
+        };
+        experiment.push(test_block);
+    }
+
     experiment.push(survey_block);
     experiment.push(end_block);
 
@@ -163,11 +178,13 @@
 //============================
 
     /* Pre-load pictures. This is called first. */
-    jsPsych.preloadImages(aImgFilepaths, function(){ startExperiment(); }
+    jsPsych.preloadImages(aFilepaths, function() {
+        jsPsych.preloadImages(bFilepaths, function(){ startExperiment(); }
         /** uncomment next 2 lines if you want a console log of loading progress **/
         // , function(nLoaded){ 
         // updateLoadedCount(nLoaded); }
     );
+    });
 
     function updateLoadedCount(nLoaded) {
         var percentcomplete = nLoaded / imgFilepaths.length * 100;
