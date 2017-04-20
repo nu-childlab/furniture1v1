@@ -1,0 +1,217 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Experiment</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="jspsych-4.3/jspsych.js"></script>
+        <script src="jspsych-4.3/plugins/jspsych-text.js"></script>
+        <script src="jspsych-4.3/plugins/jspsych-survey-text.js"></script>
+        <script src="jspsych-4.3/plugins/jspsych-single-stim.js"></script>
+        <script src="FileSaver.js-master/FileSaver.js"></script>
+        <!-- use the plugin for multiple trial elements
+        <script src="jspsych-4.3/plugins/jspsych-multi-stim-multi-response.js"></script>
+        -->
+        <link href="jspsych-4.3/css/jspsych.css" rel="stylesheet" type="text/css">
+    </head>
+
+    <style type="text/css">
+        /*important- otherwise images are giant*/
+        img { 
+          height: 450px;
+          width: auto;
+        }
+        .instruction-img {
+          width: 600px;
+          height: auto;
+        }
+        .instruction-img-section {
+          text-align: center;
+        }
+        .jspsych-display-element .instruction-screen{
+            margin-top: 150px;
+          min-width: 700px;
+        }
+
+    </style>
+
+    <body>
+    </body>
+    <script>
+//============================
+// define experiment timeline
+//============================
+    var sentence = "The red moop is <strong>wider</strong> than the blue moop is <strong>tall</strong>.";
+
+    var timeToRespond = 20*1000;
+    // to display the number of seconds to the subject in the instructions
+    var timeToRespondSecs = timeToRespond/1000;
+    var ISI = 400; // time after trials (inter-stimuli-interval)
+
+    var allImages = [ 
+    	{astim: "1At1n1s1", bstim: "1Bt0n0s0"},
+        {astim: "24At0n0s0", bstim: "24Bt1n1s1"},
+    	{astim: "2At1n1s0", bstim: "2Bt0n0s1"},
+        {astim: "3At1n0s0",bstim: "3Bt0n1s0"},
+        {astim: "4At1n0s0", bstim: "4Bt0n1s1"},
+        {astim: "5At0n1s1", bstim: "5Bt1n0s0"},
+        {astim: "6At0n1s0", bstim: "6Bt1n0s1"},
+        {astim: "7At0n0s1", bstim: "7Bt1n1s0"},
+        {astim: "8At0n0s0", bstim: "8Bt1n1s1"},
+        {astim: "9At1n1s1", bstim: "9Bt0n0s0"},
+        {astim: "10At1n1s0", bstim: "10Bt0n0s1"},
+        {astim: "11At1n0s1", bstim: "11Bt0n1s0"},
+        {astim: "12At1n0s0", bstim: "12Bt0n1s1"},
+        {astim: "13At0n1s1", bstim: "13Bt1n0s0"},
+        {astim: "14At0n1s0", bstim: "14Bt1n0s1"},
+        {astim: "15At0n0s1", bstim: "15Bt1n1s0"},
+        {astim: "16At0n0s0", bstim: "16Bt1n1s1"},
+        {astim: "17At1n1s1", bstim: "17Bt0n0s0"},
+        {astim: "18At1n1s0", bstim: "18Bt0n0s1"},
+        {astim: "19At1n0s1", bstim: "19Bt0n1s0"},
+        {astim: "20At1n0s1", bstim: "20Bt0n1s0"},
+        {astim: "21At1n0s0", bstim: "21Bt0n1s1"},
+        {astim: "22At0n1s0", bstim: "22Bt1n0s1"},
+        {astim: "23At0n0s1", bstim: "23Bt1n1s0"}
+		];
+
+ 	var aImg = [];
+ 	var bImg = [];
+ 	for (var i = 0; i < allImages.length; i++) {
+ 		aImg.push(allImages[i].astim);
+ 		bImg.push(allImages[i].bstim);
+ 	}
+ 
+    var aImgFilepaths = aImg.map(function(imageName) {
+        return "cards_furniture/" + imageName + ".png";
+    });
+    var bImgFilepaths = bImg.map(function(imageName) {
+        return "cards_furniture/" + imageName + ".png";
+    });
+
+    var repeatImage = 1;
+    // shuffle array and repeat each image X times withinin the new (shuffled) array. 
+    var aShuffled = jsPsych.randomization.repeat(aImgFilepaths, repeatImage);
+    var bShuffled = jsPsych.randomization.repeat(bImgFilepaths, repeatImage);
+    // to display the number of trials to the subject in the instructions 
+    var numTrials = aImgFilepaths.length * repeatImage;
+
+    /* define instructions block */
+    var instructions_block = {
+        type: "text",
+        text: "<div class='instruction-screen'><h4>Welcome to the experiment!</h4>" +
+            "<p>In this study, an image will appear in the center " +
+            "of the screen accompanied by a sentence. " +
+            "Your task is to decide whether the sentence " +
+            "accurately describes the picture.</p>" + 
+            "<p>The sentence will be about aliens called moops. Moops come in different colors, widths, and heights. For example, here are some orange moops: </p>" + 
+            "<div class=\"instruction-img-section\"><img class=\"instruction-img\" src=\"instructionFurniture.png\"></div>" +
+            "<p>You have up to " + timeToRespondSecs + " seconds to make your " +
+            " decision for each trial. There are " + numTrials +
+            " trials in the experiment.</p>" +
+            "<p>If the sentence " +
+            "<strong>accurately</strong> describes the picture,<br> " +
+            "press the letter <strong>f</strong> on the keyboard." +
+            "<p>If the sentence <strong>does not</strong> " +
+            "accurately describe the picture,<br>press the letter" +
+            " <strong>j</strong> on the keyboard. </p>" +
+            "<p>Ready? Press <strong>spacebar</strong> to begin.</p></div>",
+        cont_key: ['space']
+        /* gives the subject some time after the instructions before expt starts */
+        // timing_post_trial: 2000
+    };
+
+    var sentPresent = "<p align='center' style='font-size:30px;'>" + sentence + "</p><p align='center' style='font-size:15px;'>press <strong>f</strong> for yes, <strong>j</strong> for no"
+
+    /* define test block */
+    var test_block = {
+        type: "single-stim",
+        // is_html: true,
+        stimuli: aShuffled,
+        // 70 = F/f, 74 = J/j
+        choices: ['f', 'j'],
+        prompt: sentPresent,
+        timing_response: timeToRespond,
+        timing_post_trial: ISI
+    };
+
+    /* define survey block */
+    var survey_block = {
+        type: 'survey-text',
+        questions: [["<p class=\"instruction-screen\"> That's it! Before you leave, a couple of questions about your experience in this study:</p> Did you find the experiment challenging? Why or why not?", "What can you tell us about when you would say that the sentence <strong>did</strong> match the picture?", "Anything else you'd like to tell us?"]]
+    };
+
+    var end_block = {
+        type: 'single-stim',
+        stimuli: ['<p style="font-size:30px; text-align:center" class=\"instruction-screen\">Thanks for participating!</p><p style="font-size:18px; text-align:center">Please leave this browser window open and let the experimenter know you are finished.</p>'],
+        //timing_response: 1000, // how long to show the fixation for in ms
+        //response_ends_trial: false,
+        choices: ['1', 'space'], // no valid keys
+        timing_post_trial: 0, // no gap between fixation and image
+        is_html: true
+    };
+
+    /* create an experiment definition array */
+    var experiment = [];
+    experiment.push(instructions_block);
+    experiment.push(test_block);
+    experiment.push(survey_block);
+    experiment.push(end_block);
+
+
+//============================
+// initialize experiment app
+//============================
+
+    /* Pre-load pictures. This is called first. */
+    jsPsych.preloadImages(aImgFilepaths, function(){ startExperiment(); }
+        /** uncomment next 2 lines if you want a console log of loading progress **/
+        // , function(nLoaded){ 
+        // updateLoadedCount(nLoaded); }
+    );
+
+    function updateLoadedCount(nLoaded) {
+        var percentcomplete = nLoaded / imgFilepaths.length * 100;
+        console.log('Loaded '+percentcomplete+'% of experiment');
+    }
+
+    function subjcheck(subj){
+        if(subj === "") {
+           var nsubj = prompt("Subject ID must consist of an s followed by only numbers. Please enter a valid subject ID:", "s999");
+            return subjcheck(nsubj);
+        }
+        if(subj[0] != "s"){
+            subj = "s" + subj;
+        }
+        nums = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+        for(i = 1; i < subj.length; i++) {
+            if(!(nums.indexOf(subj[i]) > -1)) {
+                nsubj = prompt("Subject ID must consist of an s followed by only numbers. Please enter a valid subject ID:", "s999");
+                return subjcheck(nsubj);
+            }
+        }
+        return subj;
+    }
+
+    /* jsPsych.init is usually called first, we embedded in "startExperiment" function in order to preloadImages */
+    function startExperiment(){
+        var subj = prompt("Please enter Subject ID", "s999");
+        subj = subjcheck(subj);
+        jsPsych.data.addProperties({subject: subj});
+        //alert(subj)
+        jsPsych.init({
+            experiment_structure: experiment,
+            /* the below prints the data to the screen */
+            on_finish: function() {
+                //jsPsych.data.displayData('csv');
+                var dat = jsPsych.data.dataAsCSV();
+                //var testdat = jsPsych.data.dataAsCSV();
+                //document.write(testdat);
+                var blob = new Blob([dat], {type: "text/plain;charset=utf-8"});
+                saveAs(blob, subj + ".csv");
+             }
+        });
+    }
+
+
+    </script>
+</html>
