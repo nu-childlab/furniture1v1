@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Experiment</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="jspsych-4.3/jspsych.js"></script>
         <script src="jspsych-4.3/plugins/jspsych-text.js"></script>
         <script src="jspsych-4.3/plugins/jspsych-survey-text.js"></script>
@@ -35,6 +35,7 @@
     <body>
     </body>
     <script>
+
 //============================
 // define experiment timeline
 //============================
@@ -46,30 +47,30 @@
     var ISI = 400; // time after trials (inter-stimuli-interval)
 
     var allImages = [ 
-    	{astim: "1At1n1s1", bstim: "1Bt0n0s0"},
-        {astim: "24At0n0s0", bstim: "24Bt1n1s1"},
-    	{astim: "2At1n1s0", bstim: "2Bt0n0s1"},
-        {astim: "3At1n0s0",bstim: "3Bt0n1s0"},
-        {astim: "4At1n0s0", bstim: "4Bt0n1s1"},
-        {astim: "5At0n1s1", bstim: "5Bt1n0s0"},
-        {astim: "6At0n1s0", bstim: "6Bt1n0s1"},
-        {astim: "7At0n0s1", bstim: "7Bt1n1s0"},
-        {astim: "8At0n0s0", bstim: "8Bt1n1s1"},
-        {astim: "9At1n1s1", bstim: "9Bt0n0s0"},
-        {astim: "10At1n1s0", bstim: "10Bt0n0s1"},
-        {astim: "11At1n0s1", bstim: "11Bt0n1s0"},
-        {astim: "12At1n0s0", bstim: "12Bt0n1s1"},
-        {astim: "13At0n1s1", bstim: "13Bt1n0s0"},
-        {astim: "14At0n1s0", bstim: "14Bt1n0s1"},
-        {astim: "15At0n0s1", bstim: "15Bt1n1s0"},
-        {astim: "16At0n0s0", bstim: "16Bt1n1s1"},
-        {astim: "17At1n1s1", bstim: "17Bt0n0s0"},
-        {astim: "18At1n1s0", bstim: "18Bt0n0s1"},
-        {astim: "19At1n0s1", bstim: "19Bt0n1s0"},
-        {astim: "20At1n0s1", bstim: "20Bt0n1s0"},
-        {astim: "21At1n0s0", bstim: "21Bt0n1s1"},
-        {astim: "22At0n1s0", bstim: "22Bt1n0s1"},
-        {astim: "23At0n0s1", bstim: "23Bt1n1s0"}
+    	{astim: "1At1n1s1", bstim: "1Bt0n0s0", ratio: 2}, 
+        {astim: "24At0n0s0", bstim: "24Bt1n1s1", ratio: 2}, 
+    	{astim: "2At1n1s0", bstim: "2Bt0n0s1", ratio: 1.5}, 
+        {astim: "3At1n0s0",bstim: "3Bt0n1s0", ratio: 1.3}, 
+        {astim: "4At1n0s0", bstim: "4Bt0n1s1", ratio: 2}, 
+        {astim: "5At0n1s1", bstim: "5Bt1n0s0", ratio: 1.5},
+        {astim: "6At0n1s0", bstim: "6Bt1n0s1", ratio: 1.3}, 
+        {astim: "7At0n0s1", bstim: "7Bt1n1s0", ratio: 2}, 
+        {astim: "8At0n0s0", bstim: "8Bt1n1s1", ratio: 1.5},
+        {astim: "9At1n1s1", bstim: "9Bt0n0s0", ratio: 1.5}, 
+        {astim: "10At1n1s0", bstim: "10Bt0n0s1", ratio: 1.3}, 
+        {astim: "11At1n0s1", bstim: "11Bt0n1s0", ratio: 2}, 
+        {astim: "12At1n0s0", bstim: "12Bt0n1s1", ratio: 1.5}, 
+        {astim: "13At0n1s1", bstim: "13Bt1n0s0", ratio: 1.3}, 
+        {astim: "14At0n1s0", bstim: "14Bt1n0s1", ratio: 2},
+        {astim: "15At0n0s1", bstim: "15Bt1n1s0", ratio: 1.5}, 
+        {astim: "16At0n0s0", bstim: "16Bt1n1s1", ratio: 1.3}, 
+        {astim: "17At1n1s1", bstim: "17Bt0n0s0", ratio: 1.3}, 
+        {astim: "18At1n1s0", bstim: "18Bt0n0s1", ratio: 2}, 
+        {astim: "19At1n0s1", bstim: "19Bt0n1s0", ratio: 1.5}, 
+        {astim: "20At1n0s1", bstim: "20Bt0n1s0", ratio: 1.3}, 
+        {astim: "21At1n0s0", bstim: "21Bt0n1s1", ratio: 2}, 
+        {astim: "22At0n1s0", bstim: "22Bt1n0s1", ratio: 1.5}, 
+        {astim: "23At0n0s1", bstim: "23Bt1n1s0", ratio: 1.3} 
 		];
 
     // shuffle array and repeat each image X times withinin the new (shuffled) array. 
@@ -121,18 +122,6 @@
 
     var sentPresent = "<p align='center' style='font-size:30px;'>" + sentence + "</p><p align='center' style='font-size:15px;'>press <strong>f</strong> for yes, <strong>j</strong> for no"
 
-    /* define test block */
-    // var test_block = {
-    //     type: "single-stim",
-    //     // is_html: true,
-    //     stimuli: aShuffled,
-    //     // 70 = F/f, 74 = J/j
-    //     choices: ['f', 'j'],
-    //     prompt: sentPresent,
-    //     timing_response: timeToRespond,
-    //     timing_post_trial: ISI
-    // };
-
     /* define survey block */
     var survey_block = {
         type: 'survey-text',
@@ -152,7 +141,6 @@
     /* create an experiment definition array */
     var experiment = [];
     experiment.push(instructions_block);
-    // experiment.push(test_block);
     for (var i = 0; i < aShuffled.length; i++) {
         var test_block = {
             type: "single-stim",
@@ -162,7 +150,90 @@
             choices: ['f', 'j'],
             prompt: sentPresent,
             timing_response: timeToRespond,
-            timing_post_trial: ISI
+            timing_post_trial: ISI,
+            on_finish: function(trialData) {
+                
+                // ==================
+                // DATA PREPROCESSING
+                // ==================
+                var response;
+                if (trialData.key_press === 70){
+                    response = 'f'
+                } else if (trialData.key_press === 74) {
+                    response = 'j'
+                }
+
+                // get filepath for stimuli - html with both images
+                var fullStimPath = trialData.stimulus;
+                var arr = fullStimPath.split(/[/,.]+/);
+                var aImg = arr[1];
+                var bImg = arr[3];
+
+                // look up aImg in allImages arr and get ratio from the matching object
+                var result = $.grep(allImages, function(e) {
+                    return e.astim === aImg;
+                });
+                var ratio = result[0].ratio;
+
+                // add px by hypothesis using the a Img filename codes
+                var aImgSplit = aImg.split(/[t,n,s]+/);
+                var t = aImgSplit[1];
+                var n = aImgSplit[2];
+                var s = aImgSplit[3];
+                var tpx;
+                var npx;
+                var spx;
+                if (t === '1') {
+                    tpx = 'f'
+                } else {
+                    tpx = 'j'
+                } 
+                if (n === '1') {
+                    npx = 'f'
+                } else {
+                    npx = 'j'
+                }
+                if (s === '1') {
+                    spx = 'f'
+                } else {
+                    spx = 'j'
+                }
+
+                // correct by hypothesis by matching response to hypothesis-px
+                var tcorrect;
+                var ncorrect;
+                var scorrect;
+                if (response === tpx) {
+                    tcorrect = 1;
+                } else {
+                    tcorrect = 0
+                }
+                if (response === npx) {
+                    ncorrect = 1;
+                } else {
+                    ncorrect = 0
+                }
+                if (response === spx) {
+                    scorrect = 1;
+                } else {
+                    scorrect = 0
+                }
+
+                // print to data csv 
+                jsPsych.data.addDataToLastTrial({
+                    'response': response,
+                    'A Image': aImg,
+                    'B Image': bImg,
+                    'ratio': ratio,
+                    'typePx': tpx,
+                    'numPx': npx,
+                    'sizePx': spx,
+                    'typeCorrect' : tcorrect,
+                    'numCorrect' : ncorrect,
+                    'sizeCorrect' : scorrect
+                });
+
+            }
         };
         experiment.push(test_block);
     }
@@ -226,7 +297,6 @@
              }
         });
     }
-
 
     </script>
 </html>
