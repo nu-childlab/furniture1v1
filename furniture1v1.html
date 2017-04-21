@@ -222,7 +222,7 @@
                 //var testdat = jsPsych.data.dataAsCSV();
                 //document.write(testdat);
                 var blob = new Blob([dat], {type: "text/plain;charset=utf-8"});
-                saveAs(blob, subj + ".csv");
+                saveAs(blob, "furniture_" + subj + ".csv");
              }
         });
     }
