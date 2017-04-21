@@ -8,10 +8,8 @@
         <script src="jspsych-4.3/plugins/jspsych-survey-text.js"></script>
         <script src="jspsych-4.3/plugins/jspsych-single-stim.js"></script>
         <script src="FileSaver.js-master/FileSaver.js"></script>
-        <!-- use the plugin for multiple trial elements
-        <script src="jspsych-4.3/plugins/jspsych-multi-stim-multi-response.js"></script>
-        -->
         <link href="jspsych-4.3/css/jspsych.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="./css/style.css">
     </head>
 
     <style type="text/css">
@@ -40,7 +38,7 @@
 //============================
 // define experiment timeline
 //============================
-    var sentence = "The red moop is <strong>wider</strong> than the blue moop is <strong>tall</strong>.";
+    var sentence = "There is more furniture on the <strong>left</strong> than the <strong>right</strong>.";
 
     var timeToRespond = 20*1000;
     // to display the number of seconds to the subject in the instructions
@@ -104,7 +102,7 @@
             "of the screen accompanied by a sentence. " +
             "Your task is to decide whether the sentence " +
             "accurately describes the picture.</p>" + 
-            "<p>The sentence will be about aliens called moops. Moops come in different colors, widths, and heights. For example, here are some orange moops: </p>" + 
+            "<p>The sentence will be about furniture. For example, these objects are all furniture: </p>" + 
             "<div class=\"instruction-img-section\"><img class=\"instruction-img\" src=\"instructionFurniture.png\"></div>" +
             "<p>You have up to " + timeToRespondSecs + " seconds to make your " +
             " decision for each trial. There are " + numTrials +
@@ -159,7 +157,7 @@
         var test_block = {
             type: "single-stim",
             is_html: true,
-            stimuli: '<img src='+ aFilepaths[i] + '><img src=' + bFilepaths[i] +'>',
+            stimuli: '<div class="furniture-pair"><img class="furniture-card" src='+ aFilepaths[i] + '><img class="furniture-card" src=' + bFilepaths[i] +'></div>',
             // 70 = F/f, 74 = J/j
             choices: ['f', 'j'],
             prompt: sentPresent,

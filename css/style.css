@@ -2,13 +2,19 @@
 body {
   background: #ddd;
 }
+.jspsych-display-element {
+  width: 60%;/* increase from jspsych default 50% to fit both images side by side */
+}
 #jspsych-single-stim-stimulus {
-  border: blue thick solid;
+  overflow: auto; /*contain img contents*/
+  text-align: center; /*center furniture-pari div in jspsych single-stim container*/
+}
+.furniture-pair {
+  /*center the pair in the container*/
+  display: inline-block; /*only take the width of the image pairs and their margins*/
 }
 .furniture-card {
   /*width: 100%; maintain card width and height */
   /*height: 100%;*/
-  border: green thin solid;
-  float: left;
   margin: 30px; /*add space around*/
 }
