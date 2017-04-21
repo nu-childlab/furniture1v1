@@ -6,6 +6,7 @@ body {
   width: 60%;/* increase from jspsych default 50% to fit both images side by side */
 }
 #jspsych-single-stim-stimulus {
+	margin-top: 10%; /*take off some of the default top margin*/
   overflow: auto; /*contain img contents*/
   text-align: center; /*center furniture-pari div in jspsych single-stim container*/
 }
@@ -14,7 +15,7 @@ body {
   display: inline-block; /*only take the width of the image pairs and their margins*/
 }
 .furniture-card {
-  /*width: 100%; maintain card width and height */
-  /*height: 100%;*/
-  margin: 30px; /*add space around*/
+	height: 800px;
+  	width: auto;/* maintain card aspect ratio */
+ 	margin: 0 50px 50px 50px; /*add space around*/
 }
